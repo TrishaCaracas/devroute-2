@@ -22,7 +22,7 @@ if(isset($_SESSION['id'])) {
     </div>
 </section>
 
-<section class="domains">
+<section id="domains" class="domains">
   <div class="container">
     <h2>Choose Your <span>Domain</span></h2>
     <p class="domains-subtitle">
@@ -43,7 +43,7 @@ if(isset($_SESSION['id'])) {
       </div>
 
       <div class="domain-card">
-        <img src="assets/iimages/cybersecurity-icon.png" alt="Cybersecurity Icon" class="domain-icon">
+        <img src="assets/images/cybersecurity-icon.png" alt="Cybersecurity Icon" class="domain-icon">
         <h3>Cybersecurity</h3>
         <p>Protect systems and data from threats</p>
       </div>
@@ -73,25 +73,25 @@ if(isset($_SESSION['id'])) {
 <section id="features" class="features">
   <div class="container">
     <h2>Everything you need to <span>Suceed</span></h2>
-    <p class="feature-subtitle"> A complete ecosystem designed to accelerate your journey to expertise </p>
+    <p class="features-subtitle"> A complete ecosystem designed to accelerate your journey to expertise </p>
     <div class="features-grid">
       <div class="feature-card">
-        <img src="career-icon.png" alt="Feature Icon" class="feature-icon">
+        <img src="assets/images/quiz-icon.png" alt="Feature Icon" class="feature-icon">
         <h3>Career Assessment</h3>
         <p>Take our comprehensive quiz to discover your ideal tech career path</p>
       </div>
       <div class="feature-card">
-        <img src="roadmap-icon.png" alt="Feature Icon" class="feature-icon">
+        <img src="assets/images/career-icon.png" alt="Feature Icon" class="feature-icon">
         <h3>Personalized Roadmaps</h3>
         <p>Get step-by-step guidance tailored to your career goals</p>
       </div>
       <div class="feature-card">
-        <img src="resources-icon.png" alt="Feature Icon" class="feature-icon">
+        <img src="assets/images/resources-icon.png" alt="Feature Icon" class="feature-icon">
         <h3>Curated Resources</h3>
         <p>Access quality learning materials from top platforms</p>
       </div>
       <div class="feature-card">
-        <img src="vault-icon.png" alt="Feature Icon" class="feature-icon">
+        <img src="assets/images/vault-icon.png" alt="Feature Icon" class="feature-icon">
         <h3>Credential Vault</h3>
         <p>Store your certificates and accomplishments in a centralized vault</p>
       </div>

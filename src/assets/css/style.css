@@ -121,7 +121,7 @@ body {
 .hero {
     background: radial-gradient(circle at top center, #1e2a78, #0d102b);
     color: white;
-    padding: 6rem 1rem;
+    padding: 3rem 1rem;
     text-align: center;
 }
 
@@ -340,14 +340,6 @@ body {
 }
 
 .features h2 {
-  font-size: 2rem;
-  margin-bottom: 40px;
-  background: linear-gradient(90deg, #6a11cb, #2575fc);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.features h2 {
   text-align: center;
   font-size: 2.5rem;
   font-weight: 700;
@@ -361,7 +353,7 @@ body {
   -webkit-text-fill-color: transparent;
 }
 
-.feature-subtitle {
+.features-subtitle {
   text-align: center;
   color: #444;
   max-width: 700px;
@@ -391,8 +383,7 @@ body {
 }
 
 .feature-icon {
-  width: 60px;
-  height: 60px;
+  width: 120px;
   margin-bottom: 15px;
 }
 
