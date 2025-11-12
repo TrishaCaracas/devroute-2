@@ -11,7 +11,7 @@ include "helpers/require_login.php";
         
         <div class="roadmaps-grid">
             <div class="roadmap-card">
-                <img src="assets/images/web-dev.jpg" alt="Web Development">
+                <img src="assets/images/web-dev.png" alt="Web Development">
                 <h3>Web Development</h3>
                 <p class="long-description">
                     Build modern, responsive websites and web apps that scale. This path covers core frontend skills
@@ -33,7 +33,7 @@ include "helpers/require_login.php";
             </div>
             
             <div class="roadmap-card">
-                <img src="assets/images/data-science.jpg" alt="Data Science">
+                <img src="assets/images/data-science.png" alt="Data Science">
                 <h3>Data Science</h3>
                 <p class="long-description">
                     Turn data into decisions with statistics, Python, and machine learning. Learn to wrangle datasets,
@@ -54,7 +54,7 @@ include "helpers/require_login.php";
             </div>
             
             <div class="roadmap-card">
-                <img src="assets/images/cybersecurity.jpg" alt="Cybersecurity">
+                <img src="assets/images/cybersecurity.png" alt="Cybersecurity">
                 <h3>Cybersecurity</h3>
                 <p class="long-description">
                     Defend systems and data against evolving threats. Explore network security, vulnerability assessment,
@@ -75,7 +75,7 @@ include "helpers/require_login.php";
             </div>
             
             <div class="roadmap-card">
-                <img src="assets/images/cloud.jpg" alt="Cloud Computing">
+                <img src="assets/images/cloud.png" alt="Cloud Computing">
                 <h3>Cloud Computing</h3>
                 <p class="long-description">
                     Design, deploy, and operate scalable systems on AWS, Azure, or GCP. Learn cloud architecture,
@@ -96,7 +96,7 @@ include "helpers/require_login.php";
             </div>
             
             <div class="roadmap-card">
-                <img src="assets/images/mobile.jpg" alt="Mobile Development">
+                <img src="assets/images/mobile.png" alt="Mobile Development">
                 <h3>Mobile Development</h3>
                 <p class="long-description">
                     Craft performant iOS and Android apps with native stacks or cross‑platform frameworks like Flutter
@@ -117,7 +117,7 @@ include "helpers/require_login.php";
             </div>
             
             <div class="roadmap-card">
-                <img src="assets/images/devops.jpg" alt="DevOps">
+                <img src="assets/images/devops.png" alt="DevOps">
                 <h3>DevOps Engineering</h3>
                 <p class="long-description">
                     Bridge development and operations with CI/CD, automation, and infrastructure as code. Learn pipelines,

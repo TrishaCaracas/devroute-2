@@ -36,7 +36,7 @@ try {
                 $_SESSION['id'],
                 $selected_career_path,
                 $selected_career_path . " Learning Path",
-                "Your personalized roadmap to become a " . $selected_career_path ." Professional"
+                "Your personalized roadmap to become a"  . $selected_career_path . " Professional"
             );
             $roadmaps = get_user_roadmaps($_SESSION['id']); // Refresh roadmaps
         }
@@ -47,7 +47,7 @@ try {
             $_SESSION['id'],
             $assessment['career_path'],
             $assessment['career_path'] . " Learning Path",
-            "Your personalized roadmap to become a " . $assessment['career_path'] . " Professional"
+            "Your personalized roadmap to become a"  . $assessment['career_path'] . " Professional"
         );
         $roadmaps = get_user_roadmaps($_SESSION['id']);
     }
