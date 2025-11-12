@@ -18,7 +18,7 @@
                     <li class="nav-button"><a href="logout?logout=true">Logout</a></li>
                 <?php else: ?>
                     <li class="nav-item"><a href="index">Home</a></li>
-                    <li class="nav-button"><a href="signin">Sign In</a></li>
+                    <li class=" nav-button"><a href="signin">Sign In</a></li>
                     <li class="nav-button"><a href="signup">Sign Up</a></li>
                 <?php endif; ?>
             </ul>

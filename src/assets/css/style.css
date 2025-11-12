@@ -449,14 +449,14 @@ body {
 }
 
 .form-group {
-    margin-bottom: 1.5rem;
+    margin-bottom: 0.5rem;
 }
 
 .form-group label {
-    display: block;
-    margin-bottom: 0.5rem;
+    display: block;s
     font-weight: 500;
     color: var(--dark);
+    margin-bottom: 0.5rem;
 }
 
 .form-group input {
@@ -752,11 +752,11 @@ body {
     color: #666;
     font-size: 0.875rem;
     margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
 }
 
 .delete-picture-form {
-    margin-top: 2rem;
-    padding-top: 2rem;
+    margin-top: 0.5rem;
     border-top: 1px solid #e0e0e0;
 }
 
@@ -799,6 +799,8 @@ body {
     }
 }
 .profile-section {
+    min-height: 90vh;
+    color: white;
     background: linear-gradient(
     to bottom,
     #7aa2ff,   /* light blue highlight */
@@ -809,6 +811,10 @@ body {
     #0d102b    /* near-black base */
     );
     padding: 3rem 0;
+}
+
+#new-user-message > a {
+    color: white;
 }
 
 .profile-header {

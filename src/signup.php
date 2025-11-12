@@ -5,7 +5,7 @@ include "models/registration.php";
 $errors = [];
 
 if(isset($_SESSION['id'])) {
-    header("Location: blogs");
+    header("Location: profile");
     exit;
 }
 

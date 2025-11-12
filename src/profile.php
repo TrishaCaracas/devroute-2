@@ -314,13 +314,13 @@ try {
             <input type="hidden" name="action" value="upload_picture">
             
             <div class="form-group">
+                <p class="file-hint">JPG, PNG, or GIF (max 5MB)</p>
                 <label for="profile-picture-input" class="btn btn-primary btn-block">Choose New Picture</label>
                 <input type="file" 
                        id="profile-picture-input" 
                        name="profile_picture" 
                        accept="image/jpeg,image/jpg,image/png,image/gif" 
                        style="display: none;">
-                <p class="file-hint">JPG, PNG, or GIF (max 5MB)</p>
             </div>
             
             <div class="form-actions">
