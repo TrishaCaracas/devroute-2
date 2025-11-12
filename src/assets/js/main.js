@@ -1,3 +1,105 @@
+// Profile Picture JavaScript 
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Profile Picture Modal
+    const editProfilePictureBtn = document.getElementById('edit-profile-picture-btn');
+    const profilePictureModal = document.getElementById('profile-picture-modal');
+    const closeProfilePictureModal = document.getElementById('close-profile-picture-modal');
+    const profilePictureInput = document.getElementById('profile-picture-input');
+    const uploadPictureBtn = document.getElementById('upload-picture-btn');
+    const profilePictureForm = document.getElementById('profile-picture-form');
+
+    // Open modal
+    if (editProfilePictureBtn) {
+        editProfilePictureBtn.addEventListener('click', function() {
+            profilePictureModal.classList.add('active');
+        });
+    }
+
+    // Close modal
+    if (closeProfilePictureModal) {
+        closeProfilePictureModal.addEventListener('click', function() {
+            profilePictureModal.classList.remove('active');
+        });
+    }
+
+    // Close modal on overlay click
+    if (profilePictureModal) {
+        profilePictureModal.addEventListener('click', function(e) {
+            if (e.target === profilePictureModal) {
+                profilePictureModal.classList.remove('active');
+            }
+        });
+    }
+
+    // Handle file input change
+    if (profilePictureInput) {
+        profilePictureInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            
+            if (file) {
+                // Validate file type
+                const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+                if (!validTypes.includes(file.type)) {
+                    alert('Please select a valid image file (JPG, PNG, or GIF).');
+                    e.target.value = '';
+                    uploadPictureBtn.disabled = true;
+                    return;
+                }
+
+                // Validate file size (5MB max)
+                const maxSize = 5 * 1024 * 1024;
+                if (file.size > maxSize) {
+                    alert('File is too large. Maximum size is 5MB.');
+                    e.target.value = '';
+                    uploadPictureBtn.disabled = true;
+                    return;
+                }
+
+                // Preview the image
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const modalProfilePicture = document.getElementById('modal-profile-picture');
+                    const modalProfilePlaceholder = document.getElementById('modal-profile-placeholder');
+                    
+                    if (modalProfilePicture) {
+                        modalProfilePicture.src = event.target.result;
+                    } else if (modalProfilePlaceholder) {
+                        // Replace placeholder with image
+                        const img = document.createElement('img');
+                        img.src = event.target.result;
+                        img.alt = 'New Profile Picture';
+                        img.className = 'current-profile-picture';
+                        img.id = 'modal-profile-picture';
+                        modalProfilePlaceholder.parentNode.replaceChild(img, modalProfilePlaceholder);
+                    }
+                };
+                reader.readAsDataURL(file);
+
+                // Enable upload button
+                uploadPictureBtn.disabled = false;
+            } else {
+                uploadPictureBtn.disabled = true;
+            }
+        });
+    }
+
+    // Handle form submission with loading state
+    if (profilePictureForm) {
+        profilePictureForm.addEventListener('submit', function() {
+            uploadPictureBtn.disabled = true;
+            uploadPictureBtn.textContent = 'Uploading...';
+        });
+    }
+
+    // Close modal on ESC key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && profilePictureModal && profilePictureModal.classList.contains('active')) {
+            profilePictureModal.classList.remove('active');
+        }
+    });
+});
+
 // Toggle resources dropdown
 function toggleResources(index) {
     const resourcesList = document.getElementById(`resources-${index}`);

@@ -3,11 +3,74 @@ include "helpers/session.php";
 include "helpers/require_login.php";
 include "models/assessment.php";
 include "models/roadmap.php";
+include "models/user.php";
+
+$errors = [];
+
+// Handle profile picture upload/delete
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $action = $_POST['action'] ?? '';
+    
+    try {
+        if ($action === 'upload_picture') {
+            if (!isset($_FILES['profile_picture']) || $_FILES['profile_picture']['error'] !== UPLOAD_ERR_OK) {
+                $errors[] = "Please select a valid image file.";
+            } else {
+                $file = $_FILES['profile_picture'];
+                
+                // Validate file type
+                $allowed_types = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+                if (!in_array($file['type'], $allowed_types)) {
+                    $errors[] = "Invalid file type. Only JPG, PNG, and GIF are allowed.";
+                }
+                
+                // Validate file size (max 5MB)
+                $max_size = 5 * 1024 * 1024;
+                if ($file['size'] > $max_size) {
+                    $errors[] = "File is too large. Maximum size is 5MB.";
+                }
+                
+                if (empty($errors)) {
+                    $file_blob = file_get_contents($file['tmp_name']);
+                    
+                    if (update_profile_picture($_SESSION['id'], $file_blob, $file['type'])) {
+                        $_SESSION['flash_message'] = [
+                            'type' => 'success',
+                            'text' => 'Profile picture updated successfully.'
+                        ];
+                    } else {
+                        $errors[] = "Failed to update profile picture.";
+                    }
+                    
+                    if (empty($errors)) {
+                        header("Location: profile");
+                        exit;
+                    }
+                }
+            }
+        } elseif ($action === 'delete_picture') {
+            if (delete_profile_picture($_SESSION['id'])) {
+                $_SESSION['flash_message'] = [
+                    'type' => 'success',
+                    'text' => 'Profile picture deleted successfully.'
+                ];
+                header("Location: profile");
+                exit;
+            } else {
+                $errors[] = "Failed to delete profile picture.";
+            }
+        }
+    } catch (Exception $e) {
+        error_log("Profile picture error: " . $e->getMessage());
+        $errors[] = "An unexpected error occurred. Please try again.";
+    }
+}
 
 // Initialize variables
 $assessment = false;
 $roadmaps = [];
 $selected_career_path = null;
+$user_profile = null;
 
 // Check if a specific career path was requested via URL parameter
 if(isset($_GET['career_path']) && !empty($_GET['career_path'])) {
@@ -16,6 +79,7 @@ if(isset($_GET['career_path']) && !empty($_GET['career_path'])) {
 
 // Wrap database calls in try-catch to handle errors gracefully
 try {
+    $user_profile = get_user_profile($_SESSION['id']);
     $assessment = get_user_assessment($_SESSION['id']);
     $roadmaps = get_user_roadmaps($_SESSION['id']);
     
@@ -36,7 +100,7 @@ try {
                 $_SESSION['id'],
                 $selected_career_path,
                 $selected_career_path . " Learning Path",
-                "Your personalized roadmap to become a"  . $selected_career_path . " Professional"
+                "Your personalized roadmap to become a " . $selected_career_path ." Professional"
             );
             $roadmaps = get_user_roadmaps($_SESSION['id']); // Refresh roadmaps
         }
@@ -47,7 +111,7 @@ try {
             $_SESSION['id'],
             $assessment['career_path'],
             $assessment['career_path'] . " Learning Path",
-            "Your personalized roadmap to become a"  . $assessment['career_path'] . " Professional"
+            "Your personalized roadmap to become a " . $assessment['career_path'] . " Professional"
         );
         $roadmaps = get_user_roadmaps($_SESSION['id']);
     }
@@ -62,16 +126,49 @@ try {
 <section class="profile-section">
     <div class="container">
         <div class="profile-header">
-            <h1>Welcome, <?php echo htmlspecialchars($_SESSION['name'] ?? 'User'); ?>!</h1>
-            <?php if($selected_career_path): ?>
-                <p class="career-path">Viewing Roadmap: <strong><?php echo htmlspecialchars($selected_career_path); ?></strong></p>
-                <p><a href="profile" class="btn btn-secondary">View My Assessment Roadmap</a></p>
-            <?php elseif($assessment && isset($assessment['career_path'])): ?>
-                <p class="career-path">Your Career Path: <strong><?php echo htmlspecialchars($assessment['career_path']); ?></strong></p>
-            <?php else: ?>
-                <p><a href="assessment" class="btn btn-primary">Take Career Assessment</a></p>
-            <?php endif; ?>
+            <div class="profile-picture-section">
+                <div class="profile-picture-container">
+                    <?php if ($user_profile && $user_profile['profile_picture_mime']): ?>
+                        <img src="profile_picture.php?user_id=<?php echo $_SESSION['id']; ?>&t=<?php echo time(); ?>" 
+                             alt="Profile Picture" 
+                             class="profile-picture"
+                             id="profile-picture-img">
+                    <?php else: ?>
+                        <div class="profile-picture-placeholder" id="profile-picture-placeholder">
+                            <span class="profile-initials">
+                                <?php echo htmlspecialchars(get_user_initials($_SESSION['name'] ?? 'User')); ?>
+                            </span>
+                        </div>
+                    <?php endif; ?>
+                    <button class="profile-picture-edit-btn" id="edit-profile-picture-btn" title="Change profile picture">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 20h9"></path>
+                            <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+                        </svg>
+                    </button>
+                </div>
+                
+                <div class="profile-info">
+                    <h1>Welcome, <?php echo htmlspecialchars($_SESSION['name'] ?? 'User'); ?>!</h1>
+                    <?php if($selected_career_path): ?>
+                        <p class="career-path">Viewing Roadmap: <strong><?php echo htmlspecialchars($selected_career_path); ?></strong></p>
+                        <p><a href="profile" class="btn btn-secondary">View My Assessment Roadmap</a></p>
+                    <?php elseif($assessment && isset($assessment['career_path'])): ?>
+                        <p class="career-path">Your Career Path: <strong><?php echo htmlspecialchars($assessment['career_path']); ?></strong></p>
+                    <?php else: ?>
+                        <p><a href="assessment" class="btn btn-primary">Take Career Assessment</a></p>
+                    <?php endif; ?>
+                </div>
+            </div>
         </div>
+
+        <?php if (!empty($errors)): ?>
+            <div class="alert alert-danger">
+                <?php foreach ($errors as $error): ?>
+                    <p><?php echo htmlspecialchars($error); ?></p>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
 
         <?php if(!empty($roadmaps)): ?>
             <?php 
@@ -191,6 +288,54 @@ try {
         <?php endif; ?>
     </div>
 </section>
+
+<!-- Profile Picture Modal -->
+<div class="profile-picture-modal-overlay" id="profile-picture-modal">
+    <div class="profile-picture-modal">
+        <button class="modal-close" id="close-profile-picture-modal">&times;</button>
+        <h2>Update Profile Picture</h2>
+        
+        <div class="profile-picture-preview">
+            <?php if ($user_profile && $user_profile['profile_picture_mime']): ?>
+                <img src="profile_picture.php?user_id=<?php echo $_SESSION['id']; ?>&t=<?php echo time(); ?>" 
+                     alt="Current Profile Picture" 
+                     class="current-profile-picture"
+                     id="modal-profile-picture">
+            <?php else: ?>
+                <div class="profile-picture-placeholder large" id="modal-profile-placeholder">
+                    <span class="profile-initials">
+                        <?php echo htmlspecialchars(get_user_initials($_SESSION['name'] ?? 'User')); ?>
+                    </span>
+                </div>
+            <?php endif; ?>
+        </div>
+        
+        <form method="POST" action="profile" enctype="multipart/form-data" id="profile-picture-form">
+            <input type="hidden" name="action" value="upload_picture">
+            
+            <div class="form-group">
+                <label for="profile-picture-input" class="btn btn-primary btn-block">Choose New Picture</label>
+                <input type="file" 
+                       id="profile-picture-input" 
+                       name="profile_picture" 
+                       accept="image/jpeg,image/jpg,image/png,image/gif" 
+                       style="display: none;">
+                <p class="file-hint">JPG, PNG, or GIF (max 5MB)</p>
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="btn btn-success btn-block" id="upload-picture-btn" disabled>Upload Picture</button>
+            </div>
+        </form>
+        
+        <?php if ($user_profile && $user_profile['profile_picture_mime']): ?>
+            <form method="POST" action="profile" class="delete-picture-form" onsubmit="return confirm('Are you sure you want to delete your profile picture?');">
+                <input type="hidden" name="action" value="delete_picture">
+                <button type="submit" class="btn btn-danger btn-block">Delete Current Picture</button>
+            </form>
+        <?php endif; ?>
+    </div>
+</div>
 
 <?php include 'layouts/_footer.php'; ?>
 
