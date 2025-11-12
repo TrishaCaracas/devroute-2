@@ -28,7 +28,7 @@ services:
       MYSQL_DATABASE: devroute_db
     volumes:
       - db_data:/var/lib/mysql
-      - ./.db/db_devroute.sql:/docker-entrypoint-initdb.d/init.sql
+      - ../db/db_devroute.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - devroute_network
 

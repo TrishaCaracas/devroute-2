@@ -30,7 +30,7 @@ if(isset($_POST['submit'])) {
                 $_SESSION['id'] = $user['id'];
                 $_SESSION['name'] = $user['name'];
                 $_SESSION['flash_message'] = "You have successfully created an account.";
-                header("Location: blogs");
+                header("Location: profile");
                 exit;
             } else {
                 $errors[] = "There was an error creating your account.";
