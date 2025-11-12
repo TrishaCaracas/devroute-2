@@ -41,29 +41,36 @@ if(isset($_POST['submit'])) {
     ];
 }
 ?>
+
 <?php include 'layouts/_header.php'; ?>
 
 <section class="auth-section">
     <div class="container">
         <div class="auth-box">
-            <h2>Sign In to DevRoute</h2>
-            <?php include 'layouts/_errors.php'; ?>
-            
-            <form method="POST" action="">
-                <div class="form-group">
-                    <label for="email">Email Address</label>
-                    <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($_POST['email']); ?>" required>
-                </div>
+            <div class="auth-form-container">
+                <h2>Sign In to DevRoute</h2>
+                <?php include 'layouts/_errors.php'; ?>
                 
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" required>
-                </div>
+                <form method="POST" action="">
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($_POST['email']); ?>" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    
+                    <button type="submit" name="submit" class="btn btn-primary btn-block">Sign In</button>
+                </form>
                 
-                <button type="submit" name="submit" class="btn btn-primary btn-block">Sign In</button>
-            </form>
+                <p class="auth-link">Don't have an account? <a href="signup">Sign Up</a></p>
+            </div>
             
-            <p class="auth-link">Don't have an account? <a href="signup">Sign Up</a></p>
+            <div class="auth-image-container">
+                <img src="assets/images/devroute.png" alt="DevRoute Promotion">
+            </div>
         </div>
     </div>
 </section>
