@@ -146,7 +146,7 @@ $certificates = get_user_certificates($_SESSION['id']);
                 <h1>Your Certificate Vault</h1>
                 <p class="subtitle">Manage your completed certificates and achievements.</p>
             </div>
-            <button class="btn btn-primary" id="open-vault-modal">Upload Certificate</button>
+            <button class="btn btn-secondary" id="open-vault-modal">Upload Certificate</button>
         </div>
 
         <?php if (!empty($errors)): ?>
@@ -207,7 +207,7 @@ $certificates = get_user_certificates($_SESSION['id']);
                         </div>
 
                         <div class="certificate-actions">
-                            <a class="btn btn-secondary btn-sm" href="certificate_download.php?id=<?php echo $certificate['id']; ?>" target="_blank" rel="noopener noreferrer">View</a>
+                            <a class="btn btn-outline btn-sm" href="certificate_download.php?id=<?php echo $certificate['id']; ?>" target="_blank" rel="noopener noreferrer">View</a>
                             <button class="btn btn-outline btn-sm edit-certificate" data-id="<?php echo $certificate['id']; ?>">Edit</button>
                             <form method="POST" action="vault" class="inline-form" onsubmit="return confirm('Delete this certificate?');">
                                 <input type="hidden" name="action" value="delete">
