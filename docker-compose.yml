@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    container_name: devroute_web
+    ports:
+      - "8080:80"
+    volumes:
+      - ./src:/var/www/html
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_NAME: devroute_db
+      DB_USER: root
+      DB_PASSWORD: rootpassword
+    networks:
+      - devroute_network
+
+  db:
+    image: mysql:8.0
+    container_name: devroute_db
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: devroute_db
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./.db/db_devroute.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - devroute_network
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: devroute_phpmyadmin
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: rootpassword
+    depends_on:
+      - db
+    networks:
+      - devroute_network
+
+volumes:
+  db_data:
+
+networks:
+  devroute_network:
+    driver: bridge
